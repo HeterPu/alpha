@@ -151,13 +151,18 @@ public abstract class Task {
 
                     switchState(STATE_RUNNING);
                     Task.this.run();
-                    switchState(STATE_FINISHED);
+                    // 判断是否需要等待通知
+                    if (!waitForNotifyFinish()) {
+                        switchState(STATE_FINISHED);
 
-                    long finishTime = System.currentTimeMillis();
-                    recordTime((finishTime - startTime));
+                        long finishTime = System.currentTimeMillis();
+                        recordTime((finishTime - startTime));
 
-                    notifyFinished();
-                    recycle();
+                        notifyFinished();
+                        recycle();
+                    }else {
+                        mStartTime = startTime;
+                    }
                 }
             };
         }
@@ -167,6 +172,33 @@ public abstract class Task {
         } else {
             sExecutor.execute(mInternalRunnable);
         }
+    }
+
+
+    private long mStartTime;
+
+    /**
+     * Modify by HZ: 2022年02月09日15:44:15
+     * 设置是否等待通知任务完成。默认为false ，同步任务完成即任务完成，设置为true，则需要手动通知任务是否完成。
+     * @return 返回 false or true
+     */
+    protected boolean waitForNotifyFinish(){
+        return false;
+    }
+
+    /**
+     * 通知任务已经完成，可以结束任务标记
+     */
+    public void notifyWaitFinish(){
+        // 通知任务完成
+        if (!waitForNotifyFinish()){
+            return;
+        }
+        switchState(STATE_FINISHED);
+        long finishTime = System.currentTimeMillis();
+        recordTime((finishTime - mStartTime));
+        notifyFinished();
+        recycle();
     }
 
     /**
