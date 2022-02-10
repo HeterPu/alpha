@@ -118,7 +118,7 @@ class ConfigParser {
         List<TaskInfo> taskList = new ArrayList<TaskInfo>();
         int mode = readMode(parser);
         String processName = parser.getAttributeValue(null, ATTRIBUTE_PROCESS_NAME);
-
+        String projectName = parser.getAttributeValue(null, ATTRIBUTE_TASK_NAME);
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -133,7 +133,7 @@ class ConfigParser {
             }
         }
 
-        project = new TaskBundle(mode, processName, taskList);
+        project = new TaskBundle(mode, processName, projectName,taskList);
         return project;
     }
 
@@ -267,7 +267,7 @@ class ConfigParser {
             }
         }
 
-        ProjectInfo result = new ProjectInfo(builder.create(), info.mode, info.processName);
+        ProjectInfo result = new ProjectInfo(builder.create(), info.mode,info.name, info.processName);
         return result;
     }
 
@@ -275,10 +275,14 @@ class ConfigParser {
         public List<TaskInfo> taskList = new ArrayList<TaskInfo>();
         public int mode = AlphaManager.ALL_PROCESS_MODE;
         public String processName = "";
+        public String name = "AlphaProject";
 
-        public TaskBundle(int mode, String processName, List<TaskInfo> tasks) {
+        public TaskBundle(int mode, String processName,String name,List<TaskInfo> tasks) {
             this.mode = mode;
             this.processName = processName;
+            if (!TextUtils.isEmpty(name)) {
+                this.name = name;
+            }
             this.taskList = tasks;
         }
     }
@@ -325,14 +329,23 @@ class ConfigParser {
          * {@link AlphaManager#SECONDARY_PROCESS_MODE}<br>
          */
         public int mode = AlphaManager.ALL_PROCESS_MODE;
+
+        /**
+         * 项目的名称
+         */
+        public String name;
         /**
          * {@code Project}的名称
          */
         public String processName;
 
-        public ProjectInfo(Task project, int mode, String processName) {
+        public ProjectInfo(Task project, int mode,String name, String processName) {
             this.project = project;
             this.mode = mode;
+            this.name = name;
+            if (this.project != null) {
+                this.project.setName(name);
+            }
             this.processName = processName;
         }
     }

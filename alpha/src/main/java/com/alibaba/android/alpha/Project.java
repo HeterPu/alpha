@@ -112,7 +112,7 @@ public class Project extends Task implements OnProjectExecuteListener {
     @Override
     public void onProjectFinish() {
 
-        mProjectExecuteMonitor.recordProjectFinish();
+        mProjectExecuteMonitor.recordProjectFinish(mName);
         recordTime(mProjectExecuteMonitor.getProjectCostTime());
 
         if (mExecuteListeners != null && !mExecuteListeners.isEmpty()) {

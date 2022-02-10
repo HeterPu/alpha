@@ -65,9 +65,9 @@ class ExecuteMonitor {
     /**
      * 在{@code Project}结束时打点，记录耗时。
      */
-    public void recordProjectFinish() {
+    public void recordProjectFinish(String projectName) {
         mProjectCostTime = System.currentTimeMillis() - mStartTime;
-        AlphaLog.d("==ALPHA==", "tm start up cost time: %s ms", mProjectCostTime);
+        AlphaLog.d("==ALPHA==", "ProjectName " + "【" + projectName + "】" + "tm start up cost time: %s ms", mProjectCostTime);
     }
 
 
