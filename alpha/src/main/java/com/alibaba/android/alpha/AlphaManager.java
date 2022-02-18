@@ -206,9 +206,9 @@ public class AlphaManager {
      *
      * @param path XML配置文件的路径
      */
-    public void addProjectsViaFile(String path) {
+    public void addProjectsViaFile(String path,OnProjectExecuteListener projectListener,OnGetMonitorRecordCallback monitorListener) {
         File file = new File(path);
-        addProjectsViaFile(file);
+        addProjectsViaFile(file,projectListener,monitorListener);
     }
 
 
@@ -217,7 +217,7 @@ public class AlphaManager {
      *
      * @param file XML文件对象
      */
-    public void addProjectsViaFile(File file) {
+    public void addProjectsViaFile(File file,OnProjectExecuteListener projectListener,OnGetMonitorRecordCallback monitorListener) {
         if (!file.exists()) {
             //配置文件不存在，意味着初始化无法进行，所以及时崩溃。
             throw new RuntimeException("Alpha config file " + file + " is not exist!");
@@ -226,7 +226,7 @@ public class AlphaManager {
         InputStream in = null;
         try {
             in = new FileInputStream(file);
-            addProjectsViaFile(in);
+            addProjectsViaFile(in,projectListener,monitorListener);
         } catch (IOException e) {
             //解析配置文件出现IO错误，意味着初始化无法进行，所以及时崩溃。
             throw new RuntimeException(e);
@@ -242,7 +242,7 @@ public class AlphaManager {
      *
      * @param in XML文件输入流
      */
-    public void addProjectsViaFile(InputStream in) {
+    public void addProjectsViaFile(InputStream in,OnProjectExecuteListener projectListener,OnGetMonitorRecordCallback monitorListener) {
         ConfigParser parser = new ConfigParser();
         List<ConfigParser.ProjectInfo> projectInfoList = parser.parse(in);
 
@@ -253,8 +253,26 @@ public class AlphaManager {
 
         for (ConfigParser.ProjectInfo projectInfo : projectInfoList) {
             if (TextUtils.isEmpty(projectInfo.processName)) {
+                if (projectInfo.project instanceof Project){
+                    Project project = (Project) projectInfo.project;
+                    if (projectListener != null) {
+                        project.addOnProjectExecuteListener(projectListener);
+                    }
+                    if (monitorListener != null) {
+                        project.setOnGetMonitorRecordCallback (monitorListener);
+                    }
+                }
                 addProject(projectInfo.project, projectInfo.mode);
             } else {
+                if (projectInfo.project instanceof Project){
+                    Project project = (Project) projectInfo.project;
+                    if (projectListener != null) {
+                        project.addOnProjectExecuteListener(projectListener);
+                    }
+                    if (monitorListener != null) {
+                        project.setOnGetMonitorRecordCallback (monitorListener);
+                    }
+                }
                 addProject(projectInfo.project, projectInfo.processName);
             }
         }
