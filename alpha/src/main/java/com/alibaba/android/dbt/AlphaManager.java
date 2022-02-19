@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.android.alpha;
+package com.alibaba.android.dbt;
 
 import android.content.Context;
 import android.text.TextUtils;

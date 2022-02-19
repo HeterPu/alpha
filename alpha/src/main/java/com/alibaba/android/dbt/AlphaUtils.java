@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.android.alpha;
+package com.alibaba.android.dbt;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -27,9 +27,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.alibaba.android.alpha.AlphaManager.ALL_PROCESS_MODE;
-import static com.alibaba.android.alpha.AlphaManager.MAIN_PROCESS_MODE;
-import static com.alibaba.android.alpha.AlphaManager.SECONDARY_PROCESS_MODE;
+import static com.alibaba.android.dbt.AlphaManager.ALL_PROCESS_MODE;
+import static com.alibaba.android.dbt.AlphaManager.MAIN_PROCESS_MODE;
+import static com.alibaba.android.dbt.AlphaManager.SECONDARY_PROCESS_MODE;
 
 /**
  * <p>通用工具类。</p>

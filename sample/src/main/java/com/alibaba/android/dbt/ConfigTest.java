@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.android.alpha;
+package com.alibaba.android.dbt;
 
 import android.content.Context;
 import android.util.Log;
@@ -113,13 +113,13 @@ public class ConfigTest {
             builder.setOnProjectExecuteListener(mOnProjectExecuteListener);
         }
 
-        AlphaManager.getInstance(mContext).addProject(builder.create());
+//        AlphaManager.getInstance(mContext).addProject(builder.create());
 
-//        try {
-//            AlphaManager.getInstance(mContext).addProjectsViaFile(mContext.getAssets().open("tasklist.xml"));
-//        } catch (Exception e) {
-//            AlphaLog.w(e);
-//        }
+        try {
+            AlphaManager.getInstance(mContext).addProjectsViaFile(mContext.getAssets().open("tasklist.xml"));
+        } catch (Exception e) {
+            AlphaLog.w(e);
+        }
 
     }
 

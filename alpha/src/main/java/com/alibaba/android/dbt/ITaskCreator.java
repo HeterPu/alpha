@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.android.alpha;
+package com.alibaba.android.dbt;
 
 /**
  * Created by shangjie on 2018/10/19.
