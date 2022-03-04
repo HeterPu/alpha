@@ -19,29 +19,29 @@
             mode="mainProcess">
         <task
                 name="TaskA"
-                class="com.alibaba.android.dbt.ConfigTest$TaskA"
+                class="com.dbt.common.tasker.ConfigTest$TaskA"
                 executePriority="8"/>
 
         <task
                 name="TaskB"
-                class="com.alibaba.android.dbt.ConfigTest$TaskB"
+                class="com.dbt.common.tasker.ConfigTest$TaskB"
                 predecessor="TaskA"/>
 
         <task
                 name="TaskC"
-                class="com.alibaba.android.dbt.ConfigTest$TaskC"
+                class="com.dbt.common.tasker.ConfigTest$TaskC"
                 executePriority="4"
                 predecessor="TaskA"/>
 
         <task
                 name="TaskD"
-                class="com.alibaba.android.dbt.ConfigTest$TaskD"
+                class="com.dbt.common.tasker.ConfigTest$TaskD"
                 threadPriority="-5"
                 predecessor="TaskB,TaskC"/>
 
         <task
                 name="TaskE"
-                class="com.alibaba.android.dbt.ConfigTest$TaskE"/>
+                class="com.dbt.common.tasker.ConfigTest$TaskE"/>
 
         <!--<task-->
                 <!--name="TaskE"-->
@@ -49,13 +49,13 @@
 
         <task
                 name="TaskF"
-                class="com.alibaba.android.dbt.ConfigTest$TaskF"
+                class="com.dbt.common.tasker.ConfigTest$TaskF"
                 mainThread="true"
                 predecessor="TaskC"/>
 
         <task
                 name="TaskG"
-                class="com.alibaba.android.dbt.ConfigTest$TaskG"
+                class="com.dbt.common.tasker.ConfigTest$TaskG"
                 threadPriority="-5"
                 predecessor="TaskC"/>
 
@@ -67,22 +67,22 @@
             mode="secondaryProcess">
         <task
                 name="TaskA"
-                class="com.alibaba.android.dbt.ConfigTest$TaskA"/>
+                class="com.dbt.common.tasker.ConfigTest$TaskA"/>
 
         <task
                 name="TaskB"
-                class="com.alibaba.android.dbt.ConfigTest$TaskB"
+                class="com.dbt.common.tasker.ConfigTest$TaskB"
                 predecessor="TaskA"/>
 
         <task
                 name="TaskC"
-                class="com.alibaba.android.dbt.ConfigTest$TaskC"
+                class="com.dbt.common.tasker.ConfigTest$TaskC"
                 executePriority="8"
                 predecessor="TaskA"/>
 
         <task
                 name="TaskD"
-                class="com.alibaba.android.dbt.ConfigTest$TaskD"
+                class="com.dbt.common.tasker.ConfigTest$TaskD"
                 predecessor="TaskB,TaskC"/>
 
 
