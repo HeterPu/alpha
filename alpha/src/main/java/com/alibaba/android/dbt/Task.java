@@ -184,7 +184,7 @@ public abstract class Task {
             };
         }
         if (mIsInUiThread) {
-            if (mIsInCurrentUiThread){
+            if (mIsInCurrentUiThread && isMainThread()){
                 mInternalRunnable.run();
             }else {
                 sHandler.post(mInternalRunnable);
@@ -194,6 +194,13 @@ public abstract class Task {
         }
     }
 
+    /**
+     * 获取当前任务是否是主线程
+     * @return true 是主线程，false 非主线程。
+     */
+    public boolean isMainThread() {
+        return Looper.getMainLooper().getThread() == Thread.currentThread();
+    }
 
     private long mStartTime;
 
