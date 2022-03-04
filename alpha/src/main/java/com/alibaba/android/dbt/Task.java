@@ -77,6 +77,10 @@ public abstract class Task {
      * 是否在主线程执行
      */
     private boolean mIsInUiThread;
+    /**
+     * 是否在当前执行主线程执行
+     */
+    private boolean mIsInCurrentUiThread;
 
     private Runnable mInternalRunnable;
 
@@ -124,8 +128,21 @@ public abstract class Task {
      *                     <strong>注意：如果在UI线程执行，则不能再使用{@link AlphaManager#waitUntilFinish()}，否则会造成死锁。</strong>
      */
     public Task(String name, boolean isInUiThread) {
+        this(name,isInUiThread,false);
+    }
+
+
+    /**
+     * 构造{@code Task}对象。
+     * @param name {@code Task}名字
+     * @param isInUiThread 是否在UI线程执行，true表示在UI线程执行，false表示在非UI线程执行，默认在非UI线程执行。
+     *                     <strong>注意：如果在UI线程执行，则不能再使用{@link AlphaManager#waitUntilFinish()}，否则会造成死锁。</strong>
+     * @param isInCurrentUiThread 是否在当前主线程中执行
+     */
+    public Task(String name, boolean isInUiThread,boolean isInCurrentUiThread) {
         mName = name;
         mIsInUiThread = isInUiThread;
+        mIsInCurrentUiThread = isInCurrentUiThread;
     }
 
     //==============================================================================================
@@ -166,9 +183,12 @@ public abstract class Task {
                 }
             };
         }
-
         if (mIsInUiThread) {
-            sHandler.post(mInternalRunnable);
+            if (mIsInCurrentUiThread){
+                mInternalRunnable.run();
+            }else {
+                sHandler.post(mInternalRunnable);
+            }
         } else {
             sExecutor.execute(mInternalRunnable);
         }
