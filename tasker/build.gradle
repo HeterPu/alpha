@@ -18,12 +18,12 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -38,3 +38,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
+
+
+
+apply from: '/Users/peterhu/Desktop/others/UploadToMaven/upload_to_remote_repo.gradle'
