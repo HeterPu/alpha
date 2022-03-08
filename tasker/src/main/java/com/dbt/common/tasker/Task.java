@@ -78,9 +78,9 @@ public abstract class Task {
      */
     private boolean mIsInUiThread;
     /**
-     * 是否在当前执行主线程执行
+     * 是否在当前执行线程执行，可能为主线程，也可能为子线程
      */
-    private boolean mIsInCurrentUiThread;
+    private boolean mIsInCurrentThread;
 
     private Runnable mInternalRunnable;
 
@@ -137,12 +137,12 @@ public abstract class Task {
      * @param name {@code Task}名字
      * @param isInUiThread 是否在UI线程执行，true表示在UI线程执行，false表示在非UI线程执行，默认在非UI线程执行。
      *                     <strong>注意：如果在UI线程执行，则不能再使用{@link TaskerManager#waitUntilFinish()}，否则会造成死锁。</strong>
-     * @param isInCurrentUiThread 是否在当前主线程中执行
+     * @param isInCurrentThread 是否在当前线程中执行
      */
-    public Task(String name, boolean isInUiThread,boolean isInCurrentUiThread) {
+    public Task(String name, boolean isInUiThread,boolean isInCurrentThread) {
         mName = name;
         mIsInUiThread = isInUiThread;
-        mIsInCurrentUiThread = isInCurrentUiThread;
+        mIsInCurrentThread = isInCurrentThread;
     }
 
     //==============================================================================================
@@ -185,13 +185,17 @@ public abstract class Task {
             };
         }
         if (mIsInUiThread) {
-            if (mIsInCurrentUiThread && isMainThread()){
+            if (mIsInCurrentThread && isMainThread()){
                 mInternalRunnable.run();
             }else {
                 sHandler.post(mInternalRunnable);
             }
         } else {
-            sExecutor.execute(mInternalRunnable);
+            if (mIsInCurrentThread){
+                mInternalRunnable.run();
+            }else {
+                sExecutor.execute(mInternalRunnable);
+            }
         }
     }
 
@@ -199,7 +203,7 @@ public abstract class Task {
      * 获取当前任务是否是主线程
      * @return true 是主线程，false 非主线程。
      */
-    public boolean isMainThread() {
+    static boolean isMainThread() {
         return Looper.getMainLooper().getThread() == Thread.currentThread();
     }
 

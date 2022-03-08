@@ -395,7 +395,8 @@ public class Project extends Task implements OnProjectExecuteListener {
         private OnProjectExecuteListener mExecuteListener;
 
         public AnchorTask(boolean isStartTask, String name) {
-            super(name);
+            // 启动任务在当前线程中执行，结束任务在最后一条在子线程中执行。
+            super(name, isStartTask && isMainThread(),isStartTask);
             mIsStartTask = isStartTask;
         }
 
