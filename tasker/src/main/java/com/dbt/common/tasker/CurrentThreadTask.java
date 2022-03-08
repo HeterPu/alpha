@@ -1,9 +1,9 @@
 package com.dbt.common.tasker;
 
-public class CurrentSecThreadTask extends SecondaryThreadTask {
+public class CurrentThreadTask extends SecondaryThreadTask {
 
 
-    public CurrentSecThreadTask() {
+    public CurrentThreadTask() {
         super(true);
     }
 
