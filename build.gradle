@@ -30,13 +30,13 @@ allprojects {
 
 ext{
     POM_ARTIFACTID="tasker"//项目名称id
-    POM_DESCRIPTION='Default DESCRIPTION'
+    POM_DESCRIPTION='修复同步任务调用waitforfinish 时长不对的问题'
 }
 
 ext{
     //RELEASE:module_new,TEST:module_test,PRE_VERSION:module_pre
     POM_GROUPID='com.dbt.common'  //项目组id
-    POM_VERSION= "1.0.1"
+    POM_VERSION= "1.0.2"
 }
 
 
