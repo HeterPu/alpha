@@ -168,8 +168,8 @@ public abstract class Task {
 
                     switchState(STATE_RUNNING);
                     Task.this.run();
-                    // 判断是否需要等待通知
-                    if (!waitForNotifyFinish()) {
+                    // 判断是否需要等待通知,如果不需要通知结束或者已经触发了完成。那么直接按照同步任务处理
+                    if (!waitForNotifyFinish() || alreadyTriggerFinishFlag) {
                         switchState(STATE_FINISHED);
 
                         long finishTime = System.currentTimeMillis();
@@ -179,6 +179,7 @@ public abstract class Task {
                         recycle();
                     }else {
                         mStartTime = startTime;
+                        alreadyTriggerWaitFlag = true;
                     }
                 }
             };
@@ -213,12 +214,16 @@ public abstract class Task {
         return false;
     }
 
+    private boolean alreadyTriggerFinishFlag;
+    private boolean alreadyTriggerWaitFlag;
+
     /**
      * 通知任务已经完成，可以结束任务标记
      */
     public void notifyWaitFinish(){
         // 通知任务完成
-        if (!waitForNotifyFinish()){
+        if (!waitForNotifyFinish() || !alreadyTriggerWaitFlag){
+            alreadyTriggerFinishFlag = true;
             return;
         }
         switchState(STATE_FINISHED);
