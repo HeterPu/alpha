@@ -165,11 +165,17 @@ public abstract class Task {
                 public void run() {
                     android.os.Process.setThreadPriority(mThreadPriority);
                     long startTime = System.currentTimeMillis();
-
+                    boolean getCanRunCondition = getCanRunCondition();
                     switchState(STATE_RUNNING);
-                    Task.this.run();
+                    // 满足可以运行的条件才开始运行
+                    if (getCanRunCondition){
+                        Task.this.run();
+                    }else {
+                        Task.this.notifyNotRunConditionMakeEffect();
+                    }
                     // 判断是否需要等待通知,如果不需要通知结束或者已经触发了完成。那么直接按照同步任务处理
-                    if (!waitForNotifyFinish() || alreadyTriggerFinishFlag) {
+                    boolean noNeedWaitForFinish = (!waitForNotifyFinish() || alreadyTriggerFinishFlag);
+                    if (!getCanRunCondition || noNeedWaitForFinish) {
                         switchState(STATE_FINISHED);
 
                         long finishTime = System.currentTimeMillis();
@@ -197,6 +203,21 @@ public abstract class Task {
                 sExecutor.execute(mInternalRunnable);
             }
         }
+    }
+
+    /**
+     * 获取可以运行的条件，满足此条件才可运行
+     * @return true 可运行，false 不可运行。
+     */
+    protected boolean getCanRunCondition(){
+        return true;
+    }
+
+    /**
+     * 通知满足不运行的任务生效
+     */
+    protected void notifyNotRunConditionMakeEffect(){
+
     }
 
     /**

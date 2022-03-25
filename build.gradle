@@ -36,7 +36,7 @@ ext{
 ext{
     //RELEASE:module_new,TEST:module_test,PRE_VERSION:module_pre
     POM_GROUPID='com.dbt.common'  //项目组id
-    POM_VERSION= "1.0.8"
+    POM_VERSION= "1.0.9"
 }
 
 
